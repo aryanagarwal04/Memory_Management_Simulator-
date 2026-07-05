@@ -1,0 +1,50 @@
+TEST 1: First Fit Allocation
+
+Input:
+init memory 1000
+set allocator first_fit
+malloc 100
+malloc 200
+malloc 300
+free 2
+malloc 150
+dump memory
+
+Expected Behavior:
+- Allocation of 150 bytes should occur in the first available free block of size 200.
+- Memory blocks must remain sorted by address.
+- No overlap or memory loss should occur.
+
+
+--------------------------------------------------
+
+TEST 2: Allocation Statistics
+
+Input:
+stats
+
+Correctness Criteria:
+- Used memory equals the sum of allocated blocks.
+- Used memory + free memory = total memory.
+- Internal fragmentation = 0 (exact splitting).
+- External fragmentation > 0 when multiple free blocks exist.
+
+
+--------------------------------------------------
+
+TEST 3: Cache Warm-Up and Hits
+
+Input:
+access 10
+access 10
+dump cache
+
+Expected Output:
+- First access results in a cache miss.
+- Second access results in an L1 cache hit.
+
+Expected Cache Statistics:
+L1 hits: 1
+L1 misses: 1
+L2 hits: 0
+L2 misses: 1
